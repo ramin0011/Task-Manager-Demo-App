@@ -3,8 +3,10 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using TaskManager.Api.Controllers.Base;
+using TaskManager.Api.MessageBroker;
 using TaskManager.Api.Models;
 using TaskManager.Application.Exception;
 using TaskManager.Application.Models;
@@ -19,13 +21,14 @@ namespace TaskManager.Api.Controllers
         private readonly ITaskManagementService _taskManagementService;
         private readonly ILogger<AuthenticationController> _logger;
         private IConfiguration _configuration;
-
-        public TasksController(ILogger<AuthenticationController> logger, IConfiguration configuration, IUsersService usersService, ITaskManagementService taskManagementService)
+        private readonly IHubContext<SignalRManager> _hubContext;
+        public TasksController(ILogger<AuthenticationController> logger, IConfiguration configuration, IUsersService usersService, ITaskManagementService taskManagementService, IHubContext<SignalRManager> hubContext)
         {
             _logger = logger;
             _configuration = configuration;
             _usersService = usersService;
             _taskManagementService = taskManagementService;
+            _hubContext=hubContext;
         }
 
         [Authorize(Roles = "worker,admin")]
@@ -48,6 +51,7 @@ namespace TaskManager.Api.Controllers
         [HttpPost(Name = "create_task")]
         public async Task<IActionResult> CreateTask([FromBody]TaskModel model)
         {
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage");
             await _taskManagementService.CreateTask(model);
             return Ok(model);
         } 
@@ -57,6 +61,7 @@ namespace TaskManager.Api.Controllers
         [Authorize(Roles = "admin,worker")]
         public async Task<IActionResult> ClaimTask(string taskId)
         {
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage");
             try
             {
                 await _taskManagementService.AssignTask(taskId, GetUserId());

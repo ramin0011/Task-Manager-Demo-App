@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TaskManager.Api;
+using TaskManager.Api.MessageBroker;
 using TaskManager.Application.Services;
 using TaskManager.Application.Services.Interfaces;
 using TaskManager.Core.Interfaces.Reposistories;
@@ -33,6 +34,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
+builder.Services.AddSignalR();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -100,6 +102,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Services.SeedData();
+app.MapHub<SignalRManager>("/update-tasks");
 
 app.Run();
 
