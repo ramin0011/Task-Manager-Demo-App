@@ -52,17 +52,22 @@ const App: React.FC = () => {
           <Menu.Item key="0"><Link to="/tasks"></Link></Menu.Item>
           <Menu.Item key="2">
             <Link to="/login">
-              <span>login</span>
+              <span>Login</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="3">
             <Link to="/create-task">
-              <span>create task</span>
+              <span>Create Task</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="4">
             <Link to="/tasks">
-              <span>tasks</span>
+              <span>Tasks</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <Link to="/mytasks">
+              <span>My Tasks</span>
             </Link>
           </Menu.Item>
         </Menu>

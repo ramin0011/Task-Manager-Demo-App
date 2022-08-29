@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/login';
 import CreateTask from './pages/CreateTask';
 import Tasks from './pages/Tasks';
+import MyTasks from './pages/MyTasks';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,6 +19,7 @@ root.render(
         <Route path="login" element={<Login />} />
         <Route path="create-task" element={<CreateTask/>} />
         <Route path="tasks" element={<Tasks/>} />
+        <Route path="mytasks" element={<MyTasks/>} />
       </Route>
     </Routes>
   </BrowserRouter>
