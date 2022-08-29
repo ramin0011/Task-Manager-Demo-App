@@ -10,8 +10,7 @@ using TaskManager.Application.Services.Interfaces;
 
 namespace TaskManager.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class TasksController : ControllerBase
     {
         private readonly IUsersService _usersService;
@@ -27,20 +26,29 @@ namespace TaskManager.Api.Controllers
             _taskManagementService = taskManagementService;
         }
 
+        [Authorize(Roles = "worker,admin")]
         [HttpGet(Name = "get_tasks")]
-        [Authorize(Roles = "worker")]
         public async Task<IActionResult> GetTasks()
         {
-            var tasks =await _taskManagementService.GetTasks();
+            var tasks = await _taskManagementService.GetTasks();
             return Ok(tasks);
-        } 
-        
-        [HttpPost(Name = "create_task")]
+        }
+
         [Authorize(Roles = "admin")]
+        [HttpPost(Name = "create_task")]
         public async Task<IActionResult> CreateTask(TaskModel model)
         {
             await _taskManagementService.CreateTask(model);
             return Ok(model);
+        } 
+        
+        
+        [HttpGet(Name = "claim_task")]
+        [Authorize(Roles = "admin,worker")]
+        public async Task<IActionResult> ClaimTask(string taskId, string userId)
+        {
+            await _taskManagementService.AssignTask(taskId,userId);
+            return Ok();
         }
     }
 }
