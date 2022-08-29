@@ -13,11 +13,12 @@ const Login: React.FC = () => {
         setLoading(true);
         api.post('Authentication', { 'username': values.username, 'password': values.password }).then((data) => {
             setLoading(false);
+            localStorage.clear();
             localStorage.setItem('token',data.data);
             message.success('You are loged in!');
             navigate("/tasks");
+            window.location.reload();
         }).catch((data)=>{
-          
             message.error(data.response.data.title);
         });
 
