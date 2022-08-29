@@ -29,8 +29,8 @@ namespace TaskManager.Application.Mapper
     {
         public MapperProfile()
         {
-            CreateMap<Core.Entities.Task, TaskModel>().ReverseMap();
-            CreateMap<User, UserModel>().ReverseMap();
+            CreateMap<Core.Entities.Task, TaskModel>().ForMember(a=>a.Id,expression => expression.MapFrom(m=>m.Id.ToString())).ReverseMap();
+            CreateMap<User, UserModel>().ForMember(a => a.Id, expression => expression.MapFrom(m => m.Id.ToString())).ReverseMap();
         }
     }
 }

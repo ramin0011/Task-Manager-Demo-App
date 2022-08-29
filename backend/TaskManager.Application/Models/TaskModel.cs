@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using TaskManager.Application.Models.Base;
 
 namespace TaskManager.Application.Models
 {
-    public class TaskModel
+    public class TaskModel :BaseModel
     {
         public DateTime Deadline { get; set; }
         public string Name { get; set; }
