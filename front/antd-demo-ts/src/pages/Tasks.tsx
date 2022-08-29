@@ -35,7 +35,7 @@ const Tasks: React.FC = () => {
 
     return (
         <>
-            <Divider>tasks</Divider>
+            <Divider>Tasks</Divider>
             <List
                 loading={loading}
                 itemLayout="horizontal"
@@ -58,6 +58,8 @@ const Tasks: React.FC = () => {
 
                         </List.Item>
                         <span>Deadline : {DateHelper.formatDate(new Date(item['deadline']))}</span>
+                        <br/>
+                        <span>Create at : {DateHelper.formatDate(new Date(item['createdAt']))}</span>
                         <Divider></Divider>
                     </>
 

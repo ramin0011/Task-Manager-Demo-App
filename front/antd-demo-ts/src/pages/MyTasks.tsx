@@ -26,7 +26,7 @@ const MyTasks: React.FC = () => {
 
     return (
         <>
-            <Divider>tasks</Divider>
+            <Divider>My Tasks</Divider>
             <List 
                 loading={loading}
                 itemLayout="horizontal"
