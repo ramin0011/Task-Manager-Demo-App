@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/login';
+import CreateTask from './pages/CreateTask';
+import Tasks from './pages/Tasks';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +16,8 @@ root.render(
     <Routes>
       <Route path="/" element={<App />} >
         <Route path="login" element={<Login />} />
-        <Route path="invoices" element={<div />} />
+        <Route path="create-task" element={<CreateTask/>} />
+        <Route path="tasks" element={<Tasks/>} />
       </Route>
     </Routes>
   </BrowserRouter>

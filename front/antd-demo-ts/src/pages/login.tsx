@@ -1,34 +1,39 @@
-import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
-import { Button, Col, Divider, MenuProps, Row } from 'antd';
+import { Button, Col, Divider, MenuProps, message, Row } from 'antd';
 import { Checkbox, Form, Input } from 'antd';
+import { Console } from 'console';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../Services/Api';
 
 
 const Login: React.FC = () => {
+    let navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const onFinish = (values: any) => {
-        console.log('Success:', values);
+        setLoading(true);
+        api.post('Authentication', { 'username': values.username, 'password': values.password }).then((data) => {
+            setLoading(false);
+            localStorage.setItem('token',data.data);
+            message.success('You are loged in!');
+            navigate("/tasks");
+        }).catch((data)=>{
+          
+            message.error(data.response.data.title);
+        });
+
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
-
+   
     return (
         <>
             <Divider></Divider>
             <Form
+               
                 name="basic"
                 labelCol={{ span: 2 }}
                 wrapperCol={{ span: 16 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 <Form.Item
@@ -52,7 +57,7 @@ const Login: React.FC = () => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit"  loading={loading}>
                         Submit
                     </Button>
                 </Form.Item>

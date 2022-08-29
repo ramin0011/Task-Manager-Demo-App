@@ -1,14 +1,13 @@
+
 import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+  useParams,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
-import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, Route, Router } from 'react-router-dom';
 import './App.css';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -29,34 +28,41 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  let navigate = useNavigate();
+  let location = useLocation();
+  useEffect(
+    () => {
+      if(localStorage.getItem('token')==null){
+        navigate("/login");
+      }
+    },
+    [location]
+  )
 
+ 
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
         <div className="logo" />
         <Menu theme="dark"  >
-          <Menu.Item key="1">
-            <Link to="/tasks">
-              <span>tasks list</span>
-            </Link>
-          </Menu.Item>
+          <Menu.Item key="0"><Link to="/tasks"></Link></Menu.Item>
+          <Menu.Item key="0"><Link to="/tasks"></Link></Menu.Item>
           <Menu.Item key="2">
             <Link to="/login">
               <span>login</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link to="/create-task">
+              <span>create task</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Link to="/tasks">
+              <span>tasks</span>
             </Link>
           </Menu.Item>
         </Menu>
@@ -66,7 +72,7 @@ const App: React.FC = () => {
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+            <Breadcrumb.Item>task management</Breadcrumb.Item>
           </Breadcrumb>
           <Outlet />
         </Content>
