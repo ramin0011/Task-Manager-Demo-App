@@ -27,9 +27,13 @@ namespace TaskManager.Application.Services
             this._usersRepository = usersRepository;
         }
 
-        public async Task<List<TaskModel>> GetTasks()
+        public async Task<List<TaskModel>> GetTasks(bool showAll)
         { 
-            var data=await _taskRepository.FilterByAsync(a=>a.Deadline>DateTime.Now);
+            List<TaskEntity> data=new List<TaskEntity>();
+            if(!showAll)
+                data = await _taskRepository.FilterByAsync(a=>a.Deadline>DateTime.Now && a.ClaimedUser==null);
+            else
+                data = await _taskRepository.FilterByAsync(a=>a.Deadline>DateTime.Now);
             var result= ObjectMapper.Mapper.Map<List<TaskModel>>(data);
             result.ForEach(GetUserName);
             return result;

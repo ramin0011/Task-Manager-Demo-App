@@ -31,7 +31,7 @@ namespace TaskManager.Api.Controllers
         [HttpGet(Name = "get_tasks")]
         public async Task<IActionResult> GetTasks()
         {
-            var tasks = await _taskManagementService.GetTasks();
+            var tasks = await _taskManagementService.GetTasks(IsAdmin());
             return Ok(tasks);
         } 
         
