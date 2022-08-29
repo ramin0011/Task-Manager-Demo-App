@@ -17,14 +17,14 @@ namespace TaskManager.Api
 
                 if (usersService.GetUser("worker").Result == null)
                 {
-                    usersService.CreateUser("worker", "worker").Wait();
+                    usersService.CreateUser("worker", "worker",new List<string>(){"worker"}).Wait();
                 } 
                 if (usersService.GetUser("admin").Result == null)
                 {
-                    usersService.CreateUser("admin", "admin").Wait();
+                    usersService.CreateUser("admin", "admin", new List<string>() { "admin" }).Wait();
                 }  
                 
-                if (taskManagementService.GetTasks().Result?.Count == 0)
+                if (taskManagementService.GetTasks(true).Result?.Count == 0)
                 {
                     var admin=usersService.GetUser("admin").Result;
                     taskManagementService.CreateTask(new TaskModel()
@@ -33,7 +33,7 @@ namespace TaskManager.Api
                     }).Wait(); 
                     taskManagementService.CreateTask(new TaskModel()
                     {
-                        Deadline = DateTime.UtcNow.AddMonths(1), Name = "Test Task 2", Description = "Great Task 2"
+                        Deadline = DateTime.UtcNow.AddMonths(1), Name = "Test Task 2", Description = "awesome Task 2"
                     }).Wait();
                 }
             }

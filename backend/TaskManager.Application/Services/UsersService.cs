@@ -28,9 +28,9 @@ namespace TaskManager.Application.Services
             return _usersRepository.FindOneAsync(a=>a.UserName==username.ToLower());
         }  
         
-        public Task CreateUser(string username, string password)
+        public Task CreateUser(string username, string password,List<string> roles)
         {
-            return _usersRepository.InsertOneAsync(new User(){UserName = username,Password = password});
+            return _usersRepository.InsertOneAsync(new User(){UserName = username,Password = password,Roles = roles});
         }
     }
 }
