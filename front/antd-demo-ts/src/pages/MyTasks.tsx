@@ -33,7 +33,7 @@ const MyTasks: React.FC = () => {
                 dataSource={tasks}
                 renderItem={item => (
                   <>
-                    <List.Item  actions={[ <Button type='primary' key="list-loadmore-more">Claim</Button>]}>
+                    <List.Item  >
                        
                       <List.Item.Meta
                           avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}

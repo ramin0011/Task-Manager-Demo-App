@@ -1,4 +1,4 @@
-import { Button, Col, Divider, MenuProps, Popconfirm, Row } from 'antd';
+import { Button, Col, Divider, MenuProps, message, Popconfirm, Row } from 'antd';
 import { Checkbox, Form, Input } from 'antd';
 import { Console } from 'console';
 import React, { useEffect, useState } from 'react';
@@ -11,11 +11,7 @@ const Tasks: React.FC = () => {
     let navigate = useNavigate();
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(false);
-    const onFinish = (values: any) => {
-        api.post('Authentication', { username: values[0], password: values[1] }).then((data) => {
-            console.log(data);
-        });
-    };
+
     useEffect(() => {
         setLoading(true);
         api.get('Tasks/GetTasks').then((data) => {
@@ -29,6 +25,9 @@ const Tasks: React.FC = () => {
         api.get(`Tasks/ClaimTask?taskId=${id}`).then((data) => {
             setLoading(false);
             navigate("/mytasks");
+        }).catch((data)=>{
+            message.error(data.response.data);
+            setLoading(false);
         });
     };
 
