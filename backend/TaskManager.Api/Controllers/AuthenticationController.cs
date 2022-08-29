@@ -49,7 +49,7 @@ namespace TaskManager.Api.Controllers
                     new Claim(JwtRegisteredClaimNames.Email, model.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 });
-                user.Roles.ForEach(r=>tokenDescriptorSubject.AddClaim(new Claim(ClaimTypes.Role, r)));
+                user.Roles?.ForEach(role=>tokenDescriptorSubject.AddClaim(new Claim(ClaimTypes.Role, role)));
                 tokenDescriptor.Subject = tokenDescriptorSubject;
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescriptor);

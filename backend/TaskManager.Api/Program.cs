@@ -1,6 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using TaskManager.Api;
 using TaskManager.Application.Services;
 using TaskManager.Application.Services.Interfaces;
 using TaskManager.Core.Interfaces.Reposistories;
@@ -64,4 +65,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.Services.SeedData();
+
 app.Run();
+
