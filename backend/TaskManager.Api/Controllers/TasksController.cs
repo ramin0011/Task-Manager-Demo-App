@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using TaskManager.Api.Controllers.Base;
 using TaskManager.Api.Models;
 using TaskManager.Application.Models;
 using TaskManager.Application.Services.Interfaces;
@@ -11,7 +12,7 @@ using TaskManager.Application.Services.Interfaces;
 namespace TaskManager.Api.Controllers
 {
     [Route("[controller]/[action]")]
-    public class TasksController : ControllerBase
+    public class TasksController : BaseController
     {
         private readonly IUsersService _usersService;
         private readonly ITaskManagementService _taskManagementService;
@@ -32,6 +33,14 @@ namespace TaskManager.Api.Controllers
         {
             var tasks = await _taskManagementService.GetTasks();
             return Ok(tasks);
+        } 
+        
+        [Authorize(Roles = "worker,admin")]
+        [HttpGet(Name = "get_my_tasks")]
+        public async Task<IActionResult> GetMyTasks()
+        {
+            var tasks = await _taskManagementService.GetMyTasks(GetUserId());
+            return Ok(tasks);
         }
 
         [Authorize(Roles = "admin")]
@@ -45,9 +54,9 @@ namespace TaskManager.Api.Controllers
         
         [HttpGet(Name = "claim_task")]
         [Authorize(Roles = "admin,worker")]
-        public async Task<IActionResult> ClaimTask(string taskId, string userId)
+        public async Task<IActionResult> ClaimTask(string taskId)
         {
-            await _taskManagementService.AssignTask(taskId,userId);
+            await _taskManagementService.AssignTask(taskId,GetUserId());
             return Ok();
         }
     }

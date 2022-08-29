@@ -70,5 +70,13 @@ namespace TaskManager.Application.Services
                 throw new AppException($"The user has already max :{MAXIMUM_TASKS_ALLOWED_PERUSER} tasks assigned");
             }
         }
+
+        public async Task<List<TaskModel>> GetMyTasks(string? userId)
+        {
+            var data = await _taskRepository.FilterByAsync(a => a.ClaimedUser == ObjectId.Parse(userId));
+            var result = ObjectMapper.Mapper.Map<List<TaskModel>>(data);
+            result.ForEach(GetUserName);
+            return result;
+        }
     }
 }
