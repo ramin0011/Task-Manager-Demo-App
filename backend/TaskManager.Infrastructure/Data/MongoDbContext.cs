@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 namespace TaskManager.Infrastructure.Data
 {
-    internal class MongoDbContext : IMongoDbContext
+    public class MongoDbContext : IMongoDbContext
     {
         private IMongoDatabase database;
         private readonly string connectionString;

@@ -12,7 +12,7 @@ using TaskManager.Infrastructure.Repository.Base;
 
 namespace TaskManager.Infrastructure.Repository
 {
-    internal class RolesRepository : MongoRepository<Role> , IRolesRepository
+    public class RolesRepository : MongoRepository<Role> , IRolesRepository
     {
         public RolesRepository(IMongoDbContext context) : base(context)
         {

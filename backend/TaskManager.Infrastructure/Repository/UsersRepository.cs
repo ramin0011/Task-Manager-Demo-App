@@ -10,7 +10,7 @@ using TaskManager.Infrastructure.Repository.Base;
 using User= TaskManager.Core.Entities.User;
 namespace TaskManager.Infrastructure.Repository
 {
-    internal class UsersRepository :MongoRepository<User>,IUsersRepository
+    public class UsersRepository :MongoRepository<User>,IUsersRepository
     {
 
         public UsersRepository(IMongoDbContext context) : base(context)

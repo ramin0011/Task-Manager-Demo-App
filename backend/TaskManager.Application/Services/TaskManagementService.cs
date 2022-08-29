@@ -15,7 +15,7 @@ using TaskEntity = TaskManager.Core.Entities.Task;
 
 namespace TaskManager.Application.Services
 {
-    internal class TaskManagementService : ITaskManagementService
+    public class TaskManagementService : ITaskManagementService
     {
         private readonly ITasksRepository _taskRepository;
         private readonly IUsersRepository _usersRepository;

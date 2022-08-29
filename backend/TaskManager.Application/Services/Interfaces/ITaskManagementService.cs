@@ -2,7 +2,7 @@
 
 namespace TaskManager.Application.Services.Interfaces;
 
-internal interface ITaskManagementService
+public interface ITaskManagementService
 {
     Task<List<TaskModel>> GetTasks();
     Task CreateTask(TaskModel model);
