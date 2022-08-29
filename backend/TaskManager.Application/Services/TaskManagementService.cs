@@ -20,6 +20,7 @@ namespace TaskManager.Application.Services
         private readonly ITasksRepository _taskRepository;
         private readonly IUsersRepository _usersRepository;
         private long MAXIMUM_TASKS_ALLOWED_PERUSER=2;
+        private TaskEntity _document;
 
         public TaskManagementService(ITasksRepository taskRepository, IUsersRepository usersRepository)
         {
@@ -48,8 +49,10 @@ namespace TaskManager.Application.Services
         }
 
         public async Task CreateTask(TaskModel model)
-        { 
-           await _taskRepository.InsertOneAsync(ObjectMapper.Mapper.Map<TaskEntity>(model));
+        {
+            _document = ObjectMapper.Mapper.Map<TaskEntity>(model);
+            _document.Id = ObjectId.GenerateNewId();
+            await _taskRepository.InsertOneAsync(_document);
         } 
         
         public async Task AssignTask(string taskId,string userId)

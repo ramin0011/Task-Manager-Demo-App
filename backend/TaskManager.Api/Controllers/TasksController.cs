@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TaskManager.Api.Controllers.Base;
 using TaskManager.Api.Models;
+using TaskManager.Application.Exception;
 using TaskManager.Application.Models;
 using TaskManager.Application.Services.Interfaces;
 
@@ -45,7 +46,7 @@ namespace TaskManager.Api.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost(Name = "create_task")]
-        public async Task<IActionResult> CreateTask(TaskModel model)
+        public async Task<IActionResult> CreateTask([FromBody]TaskModel model)
         {
             await _taskManagementService.CreateTask(model);
             return Ok(model);
@@ -56,7 +57,14 @@ namespace TaskManager.Api.Controllers
         [Authorize(Roles = "admin,worker")]
         public async Task<IActionResult> ClaimTask(string taskId)
         {
-            await _taskManagementService.AssignTask(taskId,GetUserId());
+            try
+            {
+                await _taskManagementService.AssignTask(taskId, GetUserId());
+            }
+            catch (AppException e)
+            {
+                return BadRequest(e.Message);
+            }
             return Ok();
         }
     }

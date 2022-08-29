@@ -9,6 +9,10 @@ namespace TaskManager.Application.Models.Base
 {
     public class BaseModel
     {
+        public BaseModel()
+        {
+            this.CreatedAt=DateTime.Now;
+        }
         public string Id { get; set; }
         public DateTime CreatedAt { get; set; }
     }
