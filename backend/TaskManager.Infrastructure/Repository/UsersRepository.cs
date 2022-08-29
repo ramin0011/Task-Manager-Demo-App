@@ -19,7 +19,7 @@ namespace TaskManager.Infrastructure.Repository
 
         public Task<bool> IsCredentialsCorrect(string username, string password)
         {
-            return AsQueryable().AnyAsync(a => a.UserName == username.Trim() && password == password.Trim());
+            return AsQueryable().AnyAsync(a => a.UserName == username.Trim() && a.Password == password.Trim());
         }
 
         public Task<bool> HasRole(string username, string roleName)
